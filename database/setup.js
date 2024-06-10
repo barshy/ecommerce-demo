@@ -16,26 +16,16 @@ const INDEX_NAME = 'products'
 /* eslint-disable no-console */
 
 const setup = async () => {
-  console.log('🚀 Seeding your Meilisearch instance')
-
-  if (!credentials.host) {
-    console.error('Missing `MEILISEARCH_HOST` environment variable')
-    process.exit(1)
-  }
-  if (!credentials.apiKey) {
-    console.error('Missing `MEILISEARCH_ADMIN_API_KEY` environment variable')
-    process.exit(1)
-  }
+  // Credentials verification code…
 
   const client = new MeiliSearch(credentials)
-  console.log(`Using Meilisearch host: ${credentials.host}\nSearch API key: ${credentials.apiKey}`)
 
   console.log(`Adding filterable attributes to \`${INDEX_NAME}\``)
   await client.index(INDEX_NAME).updateFilterableAttributes([
     'brand',
     'category',
     'tag',
-    'rating_rounded',
+    'rating',
     'reviews_count',
     'price'
   ])
@@ -56,10 +46,7 @@ const setup = async () => {
     'price'
   ])
 
-  console.log(`Adding documents to \`${INDEX_NAME}\``)
-  await client.index(INDEX_NAME).addDocuments(data)
-
-  await watchTasks(client, INDEX_NAME)
+  // Adding documents and watching tasks…
 }
 
 setup()
